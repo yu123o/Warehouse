@@ -1,0 +1,120 @@
+<form [formGroup]="formGroup" class="container-fluid">
+
+    <h2>Add Warehouses</h2>
+    <div class="row">
+        <div data-mdb-input-init class="form-outline mb-4 col-6">
+            <label class="form-label" for="form3Example3">Name *</label>
+            <input type="text" id="form3Example3" class="form-control form-control-lg" placeholder="Enter Name"
+                [(ngModel)]="addWarehouse.name" formControlName="Name" required />
+            <div *ngIf="formGroup.get('Name')?.invalid && formGroup.get('Name')?.touched" class="text-danger">
+                <small *ngIf="formGroup.get('Name')?.errors?.['required']">Name is required.</small>
+            </div>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-3 col-6">
+            <label class="form-label" for="form3Example4">Description *</label>
+            <textarea type="text" id="form3Example4" class="form-control form-control-lg"
+                [(ngModel)]="addWarehouse.description" formControlName="Description" required></textarea>
+            <div *ngIf="formGroup.get('Description')?.invalid && formGroup.get('Description')?.touched"
+                class="text-danger">
+                <small *ngIf="formGroup.get('Description')?.errors?.['required']">Description is required.</small>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+<div class="card">
+    <p-toast />
+    <p-toolbar styleClass="mb-4 gap-2">
+        <ng-template pTemplate="left">
+            <p-button severity="success" label="New" icon="pi pi-plus" class="mr-2" (onClick)="openNew()" />
+
+        </ng-template>
+
+
+    </p-toolbar>
+
+    <p-table #dt [value]="items" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+        [tableStyle]="{ 'max-width': '75rem' }" [(selection)]="selectedItems" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+
+        <ng-template pTemplate="header">
+            <tr>
+
+                <th pSortableColumn="name">
+                    Name <p-sortIcon field="name" />
+                </th>
+
+                <th pSortableColumn="description">
+                    Description <p-sortIcon field="description" />
+                </th>
+                <th pSortableColumn="quantity" style="min-width:10rem">
+                    Quantity <p-sortIcon field="quantity" />
+                </th>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+
+                <td>
+                    {{ item.name }}
+                </td>
+
+                <td>
+                    {{ item.description}}
+                </td>
+                <td>
+                    {{ item.quantity }}
+                </td>
+
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{ items ? items.length : 0 }} item.
+            </div>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="itemDialog" [style]="{ width: '450px' }" header="item Details" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+
+            <div class="field">
+                <label for="name">Name</label>
+                <input type="text" pInputText id="name" [(ngModel)]="item.name" required autofocus />
+
+            </div>
+            <div class="field">
+                <label for="description">Description</label>
+                <textarea id="description" pInputTextarea [(ngModel)]="item.description" required rows="3" cols="20">
+                            </textarea>
+            </div>
+
+            <div class="formgrid grid">
+
+                <div class="field col">
+                    <label for="quantity">Quantity</label>
+                    <p-inputNumber id="quantity" [(ngModel)]="item.quantity" />
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <p-button label="Cancel" icon="pi pi-times" [text]="true" (onClick)="hideDialog()" />
+            <p-button label="Save" icon="pi pi-check" [text]="true" (onClick)="saveItem()" />
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog [style]="{ width: '450px' }" />
+</div>
+<div class="text-center text-lg-start mt-4 pt-2">
+    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+        style="padding-left: 2.5rem; padding-right: 2.5rem;" (click)="Save()" type="submit"
+        [disabled]="formGroup.invalid">Save</button>
+
+</div>

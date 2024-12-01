@@ -1,0 +1,27 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  p-card {
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  p-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  p-inputText, p-password {
+    width: 100%;
+  }
+  .h-custom{
+    height: -webkit-fill-available;
+  }
